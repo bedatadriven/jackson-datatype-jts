@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bedatadriven</groupId>
   <artifactId>jackson-geojson</artifactId>
-  <version>0.7</version>
+  <version>0.8-SNAPSHOT</version>
   <name>Jackson GeoJson</name>
   
   <scm>
