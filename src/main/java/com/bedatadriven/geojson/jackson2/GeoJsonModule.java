@@ -1,4 +1,4 @@
-package com.bedatadriven.geojson;
+package com.bedatadriven.geojson.jackson2;
 
 
 import com.fasterxml.jackson.core.Version;
@@ -8,7 +8,7 @@ import com.vividsolutions.jts.geom.Geometry;
 public class GeoJsonModule extends SimpleModule {
 
 	public GeoJsonModule() {
-		super("GeoJson", new Version(1, 0, 0, null,"com.bedatadriven","jackson-geojson"));
+		super("GeoJson", new Version(1, 0, 0, null,"com.bedatadriven","jackson2-geojson"));
 
 		addSerializer(Geometry.class, new GeometrySerializer());
 		addDeserializer(Geometry.class, new GeometryDeserializer());

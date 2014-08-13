@@ -1,4 +1,4 @@
-package com.bedatadriven.geojson;
+package com.bedatadriven.geojson.jackson2;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,7 +16,7 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 
 	@Override
 	public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
-			throws IOException, JsonProcessingException {
+			throws IOException {
 
 		ObjectCodec oc = jp.getCodec();
 		JsonNode root = oc.readTree(jp);
