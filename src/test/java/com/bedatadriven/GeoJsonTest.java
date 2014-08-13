@@ -6,10 +6,10 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +50,7 @@ public class GeoJsonTest {
 	}
 
 	private String toJson(Object value) throws JsonGenerationException,
-			JsonMappingException, IOException {
+            JsonMappingException, IOException {
 		return writer.writeValueAsString(value);
 	}
 

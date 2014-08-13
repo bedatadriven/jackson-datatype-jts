@@ -1,21 +1,14 @@
 package com.bedatadriven.geojson;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.ObjectCodec;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.vividsolutions.jts.geom.*;
+
 import java.io.IOException;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.ObjectCodec;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.JsonDeserializer;
-import org.codehaus.jackson.node.ArrayNode;
-
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.Polygon;
 
 public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 
@@ -33,7 +26,7 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	private Geometry parseGeometry(JsonNode root) {
 		String typeName = root.get("type").asText();
 		if (typeName.equals("Point")) {
-			return gf.createPoint(parseCoordinate((ArrayNode) root
+			return gf.createPoint(parseCoordinate(root
 					.get("coordinates")));
 
 		} else if(typeName.equals("MultiPoint")) {
