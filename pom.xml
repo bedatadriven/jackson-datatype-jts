@@ -15,14 +15,14 @@
 
   <distributionManagement>
     <repository>
-      <id>bedatadriven-oss</id>
-      <name>bedatadriven Open-Source releases</name>
-      <url>http://nexus.bedatadriven.com/content/repositories/oss-releases</url>
+      <id>sonatype-ossrh</id>
+      <name>Sonatype OSSRH</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
     <snapshotRepository>
-      <id>bedatadriven-oss</id>
-      <name>bedatadriven Open-Source snapshots</name>
-      <url>http://nexus.bedatadriven.com/content/repositories/oss-snapshots</url>
+      <id>sonatype-ossrh-snapshots</id>
+      <name>Sonatype OSSRH snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 

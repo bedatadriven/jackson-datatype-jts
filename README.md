@@ -3,6 +3,21 @@ Jackson Module which provides custom serializers and deserializers for
 [JTS Geometry](http://www.vividsolutions.com/jts/javadoc/com/vividsolutions/jts/geom/Geometry.html) objects
 using the [GeoJSON format](http://www.geojson.org/geojson-spec.html)
 
+### Maven dependency
+
+To use module on Maven-based projects, use following dependency:
+
+```xml
+<dependency>
+  <groupId>com.bedatadriven</groupId>
+  <artifactId>jackson-datatype-jts</artifactId>
+  <version>1.0</version>
+</dependency>    
+```
+
+(or whatever version is most up-to-date at the moment)
+
+
 ### Registering module
 
 To use JTS geometry datatypes with Jackson, you will first need to register the module first (same as
@@ -33,3 +48,5 @@ You can also read GeoJSON in as JTS geometry objects:
 InputStream in;
 Point point = mapper.readValue(in, Point.class);
 ```
+
+rusticus derrick- klantmonitoring@ing.nl   058 295 660
