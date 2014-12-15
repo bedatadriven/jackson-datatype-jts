@@ -1,8 +1,0 @@
-
-Jackson Module which provides custom serializers and deserializers for
-JTS Geometry [1] objects using the GeoJSON format [2].
-
-[1] http://www.vividsolutions.com/jts/javadoc/com/vividsolutions/jts/geom/Geometry.html
-[2] http://www.geojson.org/geojson-spec.html
-
-
