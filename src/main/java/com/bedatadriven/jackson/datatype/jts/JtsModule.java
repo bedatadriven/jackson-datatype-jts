@@ -1,14 +1,13 @@
-package com.bedatadriven.geojson.jackson2;
-
+package com.bedatadriven.jackson.datatype.jts;
 
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.vividsolutions.jts.geom.Geometry;
 
-public class GeoJsonModule extends SimpleModule {
+public class JtsModule extends SimpleModule {
 
-	public GeoJsonModule() {
-		super("GeoJson", new Version(1, 0, 0, null,"com.bedatadriven","jackson2-geojson"));
+	public JtsModule() {
+		super("JtsModule", new Version(1, 0, 0, null,"com.bedatadriven","jackson-datatype-jts"));
 
 		addSerializer(Geometry.class, new GeometrySerializer());
 		addDeserializer(Geometry.class, new GeometryDeserializer());

@@ -1,32 +1,19 @@
-package com.bedatadriven.geojson.jackson2;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.io.IOException;
+package com.bedatadriven.jackson.datatype.jts;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.vividsolutions.jts.geom.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.bedatadriven.geojson.jackson2.GeoJsonModule;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import java.io.IOException;
 
-public class GeoJsonTest {
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
+public class JtsModuleTest {
 	private GeometryFactory gf = new GeometryFactory();
 	private ObjectWriter writer;
 	private ObjectMapper mapper;
@@ -35,7 +22,7 @@ public class GeoJsonTest {
 	public void setupMapper() {
 		
 		mapper = new ObjectMapper();
-		mapper.registerModule(new GeoJsonModule());
+		mapper.registerModule(new JtsModule());
 
 		writer = mapper.writer();
 	}
@@ -45,8 +32,8 @@ public class GeoJsonTest {
 		Point point = gf.createPoint(new Coordinate(1.2345678, 2.3456789));
 		assertRoundTrip(point);
 		assertThat(
-				toJson(point),
-				is("{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}"));
+        toJson(point),
+        equalTo("{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}"));
 	}
 
 	private String toJson(Object value) throws JsonGenerationException,
@@ -60,8 +47,8 @@ public class GeoJsonTest {
 				.createPoint(new Coordinate(1.2345678, 2.3456789)) });
 		assertRoundTrip(multiPoint);
 		assertThat(
-				toJson(multiPoint),
-				is("{\"type\":\"MultiPoint\",\"coordinates\":[[1.2345678,2.3456789]]}"));
+        toJson(multiPoint),
+        equalTo("{\"type\":\"MultiPoint\",\"coordinates\":[[1.2345678,2.3456789]]}"));
 	}
 
 	@Test
@@ -70,8 +57,8 @@ public class GeoJsonTest {
 				new Coordinate(100.0, 0.0), new Coordinate(101.0, 1.0) });
 		assertRoundTrip(lineString);
 		assertThat(
-				toJson(lineString),
-				is("{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}"));
+        toJson(lineString),
+        equalTo("{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}"));
 	}
 
 	@Test
@@ -88,8 +75,8 @@ public class GeoJsonTest {
 
 		assertRoundTrip(multiLineString);
 		assertThat(
-				toJson(multiLineString),
-				is("{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,0.0],[101.0,1.0]],[[102.0,2.0],[103.0,3.0]]]}"));
+        toJson(multiLineString),
+        equalTo("{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,0.0],[101.0,1.0]],[[102.0,2.0],[103.0,3.0]]]}"));
 	}
 
 	@Test
@@ -103,8 +90,8 @@ public class GeoJsonTest {
 
 		assertRoundTrip(polygon);
 		assertThat(
-				toJson(polygon),
-				is("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]}"));
+        toJson(polygon),
+        equalTo("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]}"));
 	}
 
 	@Test
@@ -119,8 +106,8 @@ public class GeoJsonTest {
 						new Coordinate(100.8, 0.8), new Coordinate(100.2, 0.8),
 						new Coordinate(100.2, 0.2) }) };
 		assertThat(
-				toJson(gf.createPolygon(shell, holes)),
-				is("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}"));
+        toJson(gf.createPolygon(shell, holes)),
+        equalTo("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]}"));
 	}
 
 	@Test
@@ -134,8 +121,8 @@ public class GeoJsonTest {
 
 		assertRoundTrip(multiPolygon);
 		assertThat(
-				toJson(multiPolygon),
-				is("{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]]}"));
+        toJson(multiPolygon),
+        equalTo("{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]]}"));
 	}
 
 	@Test
@@ -145,8 +132,8 @@ public class GeoJsonTest {
 						.createPoint(new Coordinate(1.2345678, 2.3456789)) });
 		assertRoundTrip(collection);
 		assertThat(
-				toJson(collection),
-				is("{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}]}"));
+        toJson(collection),
+        equalTo("{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}]}"));
 	}
 
 	private void assertRoundTrip(Geometry geom) throws JsonGenerationException,
@@ -155,36 +142,4 @@ public class GeoJsonTest {
 		Geometry regeom = mapper.reader(Geometry.class).readValue(json);
 		assertThat(regeom, equalTo(geom));
 	}
-	//
-	// @Test
-	// public void feature() {
-	// SimpleFeature feature = buildFeature();
-	// assertThat(
-	// toJson(feature),
-	// is("{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[102.0,2.0]},\"properties\":{\"name\":\"Hello, World\"},\"id\":\"fid-1\"}"));
-	// }
-	//
-	// @Test
-	// public void featureCollection() {
-	// SimpleFeatureCollection collection = FeatureCollections.newCollection();
-	// assertThat(toJson(collection),
-	// is("{\"type\":\"FeatureCollection\",\"features\":[]}"));
-	// }
-	//
-	// SimpleFeature buildFeature() {
-	// SimpleFeatureTypeBuilder typeBuilder = new SimpleFeatureTypeBuilder();
-	// typeBuilder.setName("poi");
-	// typeBuilder.setDefaultGeometry("location");
-	// typeBuilder.add("location", Point.class);
-	// typeBuilder.add("name", String.class);
-	// typeBuilder.nillable(true).add("etc", String.class);
-	// SimpleFeatureType featureType = typeBuilder.buildFeatureType();
-	// SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(
-	// featureType);
-	// featureBuilder.add(gf.createPoint(new Coordinate(102.0, 2.0)));
-	// featureBuilder.add("Hello, World");
-	// featureBuilder.add(null);
-	// SimpleFeature feature = featureBuilder.buildFeature("fid-1");
-	// return feature;
-	// }
 }
