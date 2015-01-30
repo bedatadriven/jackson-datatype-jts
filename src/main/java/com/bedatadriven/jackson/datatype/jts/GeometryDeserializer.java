@@ -4,10 +4,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.vividsolutions.jts.geom.*;
 
 import java.io.IOException;
+
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.*;
 
 public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 
@@ -16,45 +19,75 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	@Override
 	public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException {
-
 		ObjectCodec oc = jp.getCodec();
 		JsonNode root = oc.readTree(jp);
 		return parseGeometry(root);
 	}
 
-	private Geometry parseGeometry(JsonNode root) {
-		String typeName = root.get("type").asText();
-		if (typeName.equals("Point")) {
-			return gf.createPoint(parseCoordinate(root
-					.get("coordinates")));
+	private Geometry parseGeometry(JsonNode root) throws JsonMappingException {
+		String typeName = root.get(TYPE).asText();
+		if (POINT.equals(typeName)) {
+			return parsePoint(root);
 
-		} else if(typeName.equals("MultiPoint")) {
-			return gf.createMultiPoint(parseLineString(root.get("coordinates")));
-			
-		} else if(typeName.equals("LineString")) {
-			return gf.createLineString(parseLineString(root.get("coordinates")));
+		} else if(MULTI_POINT.equals(typeName)) {
+			return parseMultiPoint(root);
 
-		} else if (typeName.equals("MultiLineString")) {
-			return gf.createMultiLineString(parseLineStrings(root
-					.get("coordinates")));
+		} else if(LINE_STRING.equals(typeName)) {
+			return parseLineString(root);
 
-		} else if(typeName.equals("Polygon")) {
-			JsonNode arrayOfRings = root.get("coordinates");
-			return parsePolygonCoordinates(arrayOfRings);
+		} else if (MULTI_LINE_STRING.equals(typeName)) {
+			return parseMultiLineStrings(root);
 
-		} else if (typeName.equals("MultiPolygon")) {
-			JsonNode arrayOfPolygons = root.get("coordinates");
-			return gf.createMultiPolygon(parsePolygons(arrayOfPolygons));
+		} else if(POLYGON.equals(typeName)) {
+			return parsePolygon(root);
 
-		} else if (typeName.equals("GeometryCollection")) {
-			return gf.createGeometryCollection(parseGeometries(root
-					.get("geometries")));
+		} else if (MULTI_POLYGON.equals(typeName)) {
+			return parseMultiPolygon(root);
+
+		} else if (GEOMETRY_COLLECTION.equals(typeName)) {
+			return parseGeometryCollection(root);
+
 		} else {
-			throw new UnsupportedOperationException();
+			throw new JsonMappingException("Invalid geometry type: " + typeName);
 		}
 	}
 
-	private Geometry[] parseGeometries(JsonNode arrayOfGeoms) {
+	private GeometryCollection parseGeometryCollection(JsonNode root) throws JsonMappingException {
+		return gf.createGeometryCollection(
+				parseGeometries(root.get(GEOMETRIES)));
+	}
+
+	private MultiPolygon parseMultiPolygon(JsonNode root) {
+		JsonNode arrayOfPolygons = root.get(COORDINATES);
+		return gf.createMultiPolygon(parsePolygons(arrayOfPolygons));
+	}
+
+	private Polygon parsePolygon(JsonNode root) {
+		JsonNode arrayOfRings = root.get(COORDINATES);
+		return parsePolygonCoordinates(arrayOfRings);
+	}
+
+	private MultiLineString parseMultiLineStrings(JsonNode root) {
+		return gf.createMultiLineString(
+				parseLineStrings(root.get(COORDINATES)));
+	}
+
+	private LineString parseLineString(JsonNode root) {
+		return gf.createLineString(
+				parseCoordinates(root.get(COORDINATES)));
+	}
+
+	private Point parsePoint(JsonNode root) {
+		return gf.createPoint(
+				parseCoordinate(root.get(COORDINATES)));
+	}
+
+	private MultiPoint parseMultiPoint(JsonNode root) {
+		return gf.createMultiPoint(
+				parseCoordinates(root.get(COORDINATES)));
+	}
+
+	private Geometry[] parseGeometries(JsonNode arrayOfGeoms) throws JsonMappingException {
 		Geometry[] items = new Geometry[arrayOfGeoms.size()];
 		for(int i=0;i!=arrayOfGeoms.size();++i) {
 			items[i] = parseGeometry(arrayOfGeoms.get(i));
@@ -63,7 +96,8 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	}
 
 	private Polygon parsePolygonCoordinates(JsonNode arrayOfRings) {
-		return gf.createPolygon(parseExteriorRing(arrayOfRings),
+		return gf.createPolygon(
+				parseLinearRing(arrayOfRings.get(0)),
 				parseInteriorRings(arrayOfRings));
 	}
 
@@ -75,24 +109,28 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 		return polygons;
 	}
 
-	private LinearRing parseExteriorRing(JsonNode arrayOfRings) {
-		return gf.createLinearRing(parseLineString(arrayOfRings.get(0)));
+	private LinearRing parseLinearRing(JsonNode coordinates) {
+		assert coordinates.isArray() : "expected coordinates array";
+		
+		return gf.createLinearRing(parseCoordinates(coordinates));
 	}
 
 	private LinearRing[] parseInteriorRings(JsonNode arrayOfRings) {
-		LinearRing rings[] = new LinearRing[arrayOfRings.size() - 1];
+		LinearRing[] rings = new LinearRing[arrayOfRings.size() - 1];
 		for (int i = 1; i < arrayOfRings.size(); ++i) {
-			rings[i - 1] = gf.createLinearRing(parseLineString(arrayOfRings
-					.get(i)));
+			rings[i - 1] = parseLinearRing(arrayOfRings.get(i));
 		}
 		return rings;
 	}
 
 	private Coordinate parseCoordinate(JsonNode array) {
-		return new Coordinate(array.get(0).asDouble(), array.get(1).asDouble());
+		assert array.isArray() && array.size() == 2 : "expecting coordinate array with single point [ x, y ]";
+		return new Coordinate(
+				array.get(0).asDouble(),
+				array.get(1).asDouble());
 	}
 
-	private Coordinate[] parseLineString(JsonNode array) {
+	private Coordinate[] parseCoordinates(JsonNode array) {
 		Coordinate[] points = new Coordinate[array.size()];
 		for (int i = 0; i != array.size(); ++i) {
 			points[i] = parseCoordinate(array.get(i));
@@ -103,9 +141,8 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	private LineString[] parseLineStrings(JsonNode array) {
 		LineString[] strings = new LineString[array.size()];
 		for (int i = 0; i != array.size(); ++i) {
-			strings[i] = gf.createLineString(parseLineString(array.get(i)));
+			strings[i] = gf.createLineString(parseCoordinates(array.get(i)));
 		}
 		return strings;
 	}
-
 }

@@ -1,10 +1,10 @@
 package com.bedatadriven.jackson.datatype.jts;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.vividsolutions.jts.geom.*;
+import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +20,7 @@ public class JtsModuleTest {
 
 	@Before
 	public void setupMapper() {
-		
+
 		mapper = new ObjectMapper();
 		mapper.registerModule(new JtsModule());
 
@@ -32,12 +32,11 @@ public class JtsModuleTest {
 		Point point = gf.createPoint(new Coordinate(1.2345678, 2.3456789));
 		assertRoundTrip(point);
 		assertThat(
-        toJson(point),
-        equalTo("{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}"));
+				toJson(point),
+				equalTo("{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}"));
 	}
 
-	private String toJson(Object value) throws JsonGenerationException,
-            JsonMappingException, IOException {
+	private String toJson(Object value) throws IOException {
 		return writer.writeValueAsString(value);
 	}
 
@@ -47,8 +46,8 @@ public class JtsModuleTest {
 				.createPoint(new Coordinate(1.2345678, 2.3456789)) });
 		assertRoundTrip(multiPoint);
 		assertThat(
-        toJson(multiPoint),
-        equalTo("{\"type\":\"MultiPoint\",\"coordinates\":[[1.2345678,2.3456789]]}"));
+				toJson(multiPoint),
+				equalTo("{\"type\":\"MultiPoint\",\"coordinates\":[[1.2345678,2.3456789]]}"));
 	}
 
 	@Test
@@ -57,8 +56,8 @@ public class JtsModuleTest {
 				new Coordinate(100.0, 0.0), new Coordinate(101.0, 1.0) });
 		assertRoundTrip(lineString);
 		assertThat(
-        toJson(lineString),
-        equalTo("{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}"));
+				toJson(lineString),
+				equalTo("{\"type\":\"LineString\",\"coordinates\":[[100.0,0.0],[101.0,1.0]]}"));
 	}
 
 	@Test
@@ -75,8 +74,8 @@ public class JtsModuleTest {
 
 		assertRoundTrip(multiLineString);
 		assertThat(
-        toJson(multiLineString),
-        equalTo("{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,0.0],[101.0,1.0]],[[102.0,2.0],[103.0,3.0]]]}"));
+				toJson(multiLineString),
+				equalTo("{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,0.0],[101.0,1.0]],[[102.0,2.0],[103.0,3.0]]]}"));
 	}
 
 	@Test
@@ -90,12 +89,27 @@ public class JtsModuleTest {
 
 		assertRoundTrip(polygon);
 		assertThat(
-        toJson(polygon),
-        equalTo("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]}"));
+				toJson(polygon),
+				equalTo("{\"type\":\"Polygon\",\"coordinates\":[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]}"));
 	}
 
+	@Test(expected = JsonMappingException.class)
+	public void invalidGeometryType() throws IOException {
+		String json = "{\"type\":\"Singularity\",\"coordinates\":[]}";
+		mapper.readValue(json, Geometry.class);
+	}
+	
+	@Test(expected = JsonMappingException.class)
+	public void unsupportedGeometry() throws IOException {
+		Geometry unsupportedGeometry = EasyMock.createNiceMock("NonEuclideanGeometry", Geometry.class);
+		EasyMock.replay(unsupportedGeometry);
+		
+		mapper.writeValue(System.out, unsupportedGeometry);
+	}
+
+
 	@Test
-	public void polygonWithNoHoles() throws Exception {
+	public void polygonWithHoles() throws Exception {
 		LinearRing shell = gf.createLinearRing(new Coordinate[] {
 				new Coordinate(102.0, 2.0), new Coordinate(103.0, 2.0),
 				new Coordinate(103.0, 3.0), new Coordinate(102.0, 3.0),
@@ -121,8 +135,8 @@ public class JtsModuleTest {
 
 		assertRoundTrip(multiPolygon);
 		assertThat(
-        toJson(multiPolygon),
-        equalTo("{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]]}"));
+				toJson(multiPolygon),
+				equalTo("{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]]}"));
 	}
 
 	@Test
@@ -132,13 +146,13 @@ public class JtsModuleTest {
 						.createPoint(new Coordinate(1.2345678, 2.3456789)) });
 		assertRoundTrip(collection);
 		assertThat(
-        toJson(collection),
-        equalTo("{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}]}"));
+				toJson(collection),
+				equalTo("{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}]}"));
 	}
-
-	private void assertRoundTrip(Geometry geom) throws JsonGenerationException,
-			JsonMappingException, IOException {
+	
+	private void assertRoundTrip(Geometry geom) throws IOException {
 		String json = writer.writeValueAsString(geom);
+		System.out.println(json);
 		Geometry regeom = mapper.reader(Geometry.class).readValue(json);
 		assertThat(regeom, equalTo(geom));
 	}
