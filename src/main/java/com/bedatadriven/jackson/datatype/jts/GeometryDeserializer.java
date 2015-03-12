@@ -21,7 +21,11 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	}
 
 	public GeometryDeserializer(GeometryFactory gf) {
-		this.gf = gf;
+		if (gf == null) {
+			this.gf = new GeometryFactory();
+		} else {
+			this.gf = gf;
+		}
 	}
 
 	@Override
