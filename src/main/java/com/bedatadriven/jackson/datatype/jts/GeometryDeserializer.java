@@ -14,7 +14,19 @@ import static com.bedatadriven.jackson.datatype.jts.GeoJson.*;
 
 public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 
-	private GeometryFactory gf = new GeometryFactory();
+	private GeometryFactory gf;
+
+	public GeometryDeserializer() {
+		this(new GeometryFactory());
+	}
+
+	public GeometryDeserializer(GeometryFactory gf) {
+		if (gf == null) {
+			this.gf = new GeometryFactory();
+		} else {
+			this.gf = gf;
+		}
+	}
 
 	@Override
 	public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
