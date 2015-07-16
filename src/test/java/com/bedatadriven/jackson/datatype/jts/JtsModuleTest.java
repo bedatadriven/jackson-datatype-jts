@@ -30,6 +30,7 @@ public class JtsModuleTest {
 	@Test
 	public void point() throws Exception {
 		Point point = gf.createPoint(new Coordinate(1.2345678, 2.3456789));
+		
 		assertRoundTrip(point);
 		assertThat(
 				toJson(point),
@@ -153,7 +154,7 @@ public class JtsModuleTest {
 	private void assertRoundTrip(Geometry geom) throws IOException {
 		String json = writer.writeValueAsString(geom);
 		System.out.println(json);
-		Geometry regeom = mapper.reader(Geometry.class).readValue(json);
+		Geometry regeom = mapper.readValue(json, geom.getClass());
 		assertThat(regeom, equalTo(geom));
 	}
 }

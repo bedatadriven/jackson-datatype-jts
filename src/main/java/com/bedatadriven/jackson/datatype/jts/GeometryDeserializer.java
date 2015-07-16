@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static com.bedatadriven.jackson.datatype.jts.GeoJson.*;
 
-public class GeometryDeserializer extends JsonDeserializer<Geometry> {
+public class GeometryDeserializer <T extends Geometry> extends JsonDeserializer<T> {
 
 	private GeometryFactory gf;
 
@@ -29,35 +29,36 @@ public class GeometryDeserializer extends JsonDeserializer<Geometry> {
 	}
 
 	@Override
-	public Geometry deserialize(JsonParser jp, DeserializationContext ctxt)
+	public T deserialize(JsonParser jp, DeserializationContext ctxt)
 			throws IOException {
 		ObjectCodec oc = jp.getCodec();
 		JsonNode root = oc.readTree(jp);
 		return parseGeometry(root);
 	}
 
-	private Geometry parseGeometry(JsonNode root) throws JsonMappingException {
+	@SuppressWarnings("unchecked")
+	private T parseGeometry(JsonNode root) throws JsonMappingException {
 		String typeName = root.get(TYPE).asText();
 		if (POINT.equals(typeName)) {
-			return parsePoint(root);
+			return (T) parsePoint(root);
 
 		} else if(MULTI_POINT.equals(typeName)) {
-			return parseMultiPoint(root);
+			return (T) parseMultiPoint(root);
 
 		} else if(LINE_STRING.equals(typeName)) {
-			return parseLineString(root);
+			return (T) parseLineString(root);
 
 		} else if (MULTI_LINE_STRING.equals(typeName)) {
-			return parseMultiLineStrings(root);
+			return (T) parseMultiLineStrings(root);
 
 		} else if(POLYGON.equals(typeName)) {
-			return parsePolygon(root);
+			return (T) parsePolygon(root);
 
 		} else if (MULTI_POLYGON.equals(typeName)) {
-			return parseMultiPolygon(root);
+			return (T) parseMultiPolygon(root);
 
 		} else if (GEOMETRY_COLLECTION.equals(typeName)) {
-			return parseGeometryCollection(root);
+			return (T) parseGeometryCollection(root);
 
 		} else {
 			throw new JsonMappingException("Invalid geometry type: " + typeName);
