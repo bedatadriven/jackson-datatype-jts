@@ -1,0 +1,31 @@
+group 'com.bedatadriven'
+version '1.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.7'
+}
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.4.2'
+    compile("com.vividsolutions:jts:1.8")
+    testCompile 'junit:junit:4.11'
+    testCompile('org.easymock:easymock:3.2')
+
+}

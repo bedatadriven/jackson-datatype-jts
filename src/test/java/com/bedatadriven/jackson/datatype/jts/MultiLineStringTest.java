@@ -1,6 +1,7 @@
 package com.bedatadriven.jackson.datatype.jts;
 
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.MultiLineString;
 
@@ -29,4 +30,5 @@ public class MultiLineStringTest extends BaseJtsModuleTest<MultiLineString> {
                                 new Coordinate(102.0, 2.0),
                                 new Coordinate(103.0, 3.0) }) });
     }
+
 }

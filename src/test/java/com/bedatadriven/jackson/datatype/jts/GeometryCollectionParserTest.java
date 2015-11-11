@@ -23,4 +23,5 @@ public class GeometryCollectionParserTest extends BaseJtsModuleTest<GeometryColl
         return gf.createGeometryCollection(new Geometry[] {
                 gf.createPoint(new Coordinate(1.2345678, 2.3456789)) });
     }
+
 }
