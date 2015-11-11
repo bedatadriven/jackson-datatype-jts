@@ -17,6 +17,7 @@ public class JtsModuleTest {
 	private GeometryFactory gf = new GeometryFactory();
 	private ObjectWriter writer;
 	private ObjectMapper mapper;
+	private Point point;
 
 	@Before
 	public void setupMapper() {
@@ -25,7 +26,13 @@ public class JtsModuleTest {
 		mapper.registerModule(new JtsModule());
 
 		writer = mapper.writer();
+        point = gf.createPoint(new Coordinate(1.2345678, 2.3456789));
 	}
+
+    @Test
+    public void abstractPoint() throws Exception {
+        Point p = mapper.readValue(toJson(point), Point.class);
+    }
 
 	@Test
 	public void point() throws Exception {
