@@ -1,4 +1,4 @@
-package com.bedatadriven.jackson.datatype.jts;
+package com.bedatadriven.jackson.datatype.jts.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonMappingException;

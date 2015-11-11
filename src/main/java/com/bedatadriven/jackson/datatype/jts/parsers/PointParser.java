@@ -12,9 +12,11 @@ import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
 /**
  * Created by mihaildoronin on 11/11/15.
  */
-public class PointParser implements GeometryParser{
+public class PointParser extends BaseParser implements GeometryParser<Point>{
 
-    protected static GeometryFactory geometryFactory = new GeometryFactory();
+    public PointParser(GeometryFactory geometryFactory) {
+        super(geometryFactory);
+    }
 
     public static Coordinate coordinateFromJson(JsonNode array) {
         assert array.isArray() && array.size() == 2 : "expecting coordinate array with single point [ x, y ]";
@@ -37,7 +39,7 @@ public class PointParser implements GeometryParser{
     }
 
     @Override
-    public Geometry geometryFromJson(JsonNode node) throws JsonMappingException {
+    public Point geometryFromJson(JsonNode node) throws JsonMappingException {
         return pointFromJson(node);
     }
 }
