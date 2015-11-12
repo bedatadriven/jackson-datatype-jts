@@ -7,12 +7,16 @@ using the [GeoJSON format](http://www.geojson.org/geojson-spec.html)
 
 To use module on Maven-based projects, use following dependency:
 
-```xml
-<dependency>
-  <groupId>com.bedatadriven</groupId>
-  <artifactId>jackson-datatype-jts</artifactId>
-  <version>1.0</version>
-</dependency>    
+```gradle
+ repositories {
+        // ...
+        maven { url "https://jitpack.io" }
+    }
+    
+  ...
+  dependencies {
+	    compile 'com.github.purpleP:jackson-datatype-jts:jackson-datatype-jts-1.1.1'
+	}
 ```
 
 (or whatever version is most up-to-date at the moment)
