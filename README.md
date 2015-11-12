@@ -3,9 +3,8 @@ Jackson Module which provides custom serializers and deserializers for
 [JTS Geometry](http://www.vividsolutions.com/jts/javadoc/com/vividsolutions/jts/geom/Geometry.html) objects
 using the [GeoJSON format](http://www.geojson.org/geojson-spec.html)
 
-### Maven dependency
+### Gradle dependency
 
-To use module on Maven-based projects, use following dependency:
 
 ```gradle
  repositories {
