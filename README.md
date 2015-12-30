@@ -51,5 +51,3 @@ You can also read GeoJSON in as JTS geometry objects:
 InputStream in;
 Point point = mapper.readValue(in, Point.class);
 ```
-
-rusticus derrick- klantmonitoring@ing.nl   058 295 660
