@@ -6,7 +6,29 @@
   <name>Jackson-datatype-jts</name>
   <description>Add-on module for Jackson (http://jackson.codehaus.org) to support JTS geometry types using
     the GeoJSON standard.</description>
+  <url>https://github.com/bedatadriven/jackson-datatype-jts/</url>
 
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <developers>
+    <developer>
+      <name>Alex Bertram</name>
+      <email>alex@bedatadriven.com</email>
+      <organization>BeDataDriven</organization>
+      <organizationUrl>https://bedatadriven.com</organizationUrl>
+      <timezone>Europe/Amsterdam</timezone>
+      <roles>
+        <role>Maintainer</role>
+      </roles>
+    </developer>
+  </developers>
+  
   <scm>
     <connection>scm:git:git@github.com:bedatadriven/jackson-datatype-jts.git</connection>
     <url>scm:git:git@github.com:bedatadriven/jackson-datatype-jts.git</url>
