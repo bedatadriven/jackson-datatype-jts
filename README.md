@@ -5,6 +5,8 @@ using the [GeoJSON format](http://www.geojson.org/geojson-spec.html)
 
 [![Build Status](https://jenkins.bedatadriven.com/job/jackson-datatype-jts/badge/icon)](https://jenkins.bedatadriven.com/job/jackson-datatype-jts/)
 
+*NOTE*: Deployment ot Maven Central is _*pending*_
+
 ### Maven Dependency
 
 To use module on Maven-based projects, use following dependency:
@@ -13,9 +15,10 @@ To use module on Maven-based projects, use following dependency:
 <dependency>
   <groupId>com.bedatadriven</groupId>
   <artifactId>jackson-datatype-jts</artifactId>
-  <version>2.0</version>
+  <version>2.1</version>
 </dependency>    
 ```
+
 
 ### Gradle dependency
 
@@ -31,8 +34,6 @@ To use module on Maven-based projects, use following dependency:
 	    compile 'com.github.purpleP:jackson-datatype-jts:jackson-datatype-jts-1.1.1'
 	}
 ```
-
-(or whatever version is most up-to-date at the moment)
 
 
 ### Registering module
