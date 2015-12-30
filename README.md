@@ -15,7 +15,7 @@ To use module on Maven-based projects, use following dependency:
 <dependency>
   <groupId>com.bedatadriven</groupId>
   <artifactId>jackson-datatype-jts</artifactId>
-  <version>2.1</version>
+  <version>2.2</version>
 </dependency>    
 ```
 
@@ -26,12 +26,12 @@ To use module on Maven-based projects, use following dependency:
 ```gradle
  repositories {
         // ...
-        maven { url "https://jitpack.io" }
+        mavenCentral()
     }
     
   ...
   dependencies {
-	    compile 'com.github.purpleP:jackson-datatype-jts:jackson-datatype-jts-1.1.1'
+	    compile 'com.bedatadriven.com:jackson-datatype-jts:2.2'
 	}
 ```
 
