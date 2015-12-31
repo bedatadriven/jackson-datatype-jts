@@ -1,15 +1,19 @@
 
+# Jackson-datatype-jts
+
 Jackson Module which provides custom serializers and deserializers for
 [JTS Geometry](http://www.vividsolutions.com/jts/javadoc/com/vividsolutions/jts/geom/Geometry.html) objects
 using the [GeoJSON format](http://www.geojson.org/geojson-spec.html)
 
 [![Build Status](https://jenkins.bedatadriven.com/job/jackson-datatype-jts/badge/icon)](https://jenkins.bedatadriven.com/job/jackson-datatype-jts/)
 
-*NOTE*: Deployment ot Maven Central is _*pending*_
+## Installation 
 
-### Maven Dependency
+Releases of jackson-datatype-jts are available on Maven Central.
 
-To use module on Maven-based projects, use following dependency:
+### Maven
+
+To use the module in Maven-based projects, use following dependency:
 
 ```xml
 <dependency>
@@ -19,22 +23,16 @@ To use module on Maven-based projects, use following dependency:
 </dependency>    
 ```
 
-
-### Gradle dependency
+### Gradle
 
 
 ```gradle
- repositories {
-        // ...
-        mavenCentral()
-    }
-    
-  ...
-  dependencies {
-	    compile 'com.bedatadriven.com:jackson-datatype-jts:2.2'
-	}
+dependencies {
+    compile 'com.bedatadriven:jackson-datatype-jts:2.2'
+}
 ```
 
+## Usage
 
 ### Registering module
 
