@@ -9,11 +9,11 @@ import com.vividsolutions.jts.geom.*;
 
 public class JtsModule extends SimpleModule {
 
-	public JtsModule() {
-		super("JtsModule", new Version(1, 0, 0, null,"com.bedatadriven","jackson-datatype-jts"));
+    public JtsModule() {
+        super("JtsModule", new Version(1, 0, 0, null,"com.bedatadriven","jackson-datatype-jts"));
 
         GeometryFactory geometryFactory = new GeometryFactory();
-		addSerializer(Geometry.class, new GeometrySerializer());
+        addSerializer(Geometry.class, new GeometrySerializer());
         GenericGeometryParser genericGeometryParser = new GenericGeometryParser(geometryFactory);
         addDeserializer(Geometry.class, new GeometryDeserializer<Geometry>(genericGeometryParser));
         addDeserializer(Point.class, new GeometryDeserializer<Point>(new PointParser(geometryFactory)));
@@ -24,7 +24,7 @@ public class JtsModule extends SimpleModule {
         addDeserializer(MultiPolygon.class, new GeometryDeserializer<MultiPolygon>(new MultiPolygonParser(geometryFactory)));
         addDeserializer(GeometryCollection.class, new GeometryDeserializer<GeometryCollection>(new GeometryCollectionParser(geometryFactory, genericGeometryParser)));
 
-	}
+    }
 
     @Override
     public void setupModule(SetupContext context) {
