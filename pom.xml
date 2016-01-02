@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bedatadriven</groupId>
   <artifactId>jackson-datatype-jts</artifactId>
-  <version>2.3-SNAPSHOT</version>
+  <version>2.3</version>
   <name>Jackson-datatype-jts</name>
   <description>Add-on module for Jackson (http://jackson.codehaus.org) to support JTS geometry types using
     the GeoJSON standard.</description>
@@ -33,7 +33,7 @@
     <connection>scm:git:git@github.com:bedatadriven/jackson-datatype-jts.git</connection>
     <url>scm:git:git@github.com:bedatadriven/jackson-datatype-jts.git</url>
     <developerConnection>scm:git:git@github.com:bedatadriven/jackson-datatype-jts.git</developerConnection>
-    <tag>jackson-datatype-jts-2.0</tag>
+    <tag>jackson-datatype-jts-2.3</tag>
   </scm>
 
   <distributionManagement>
