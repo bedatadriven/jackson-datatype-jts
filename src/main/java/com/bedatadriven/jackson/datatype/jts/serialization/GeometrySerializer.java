@@ -170,8 +170,14 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 	private void writePointCoords(JsonGenerator jgen, Point p)
 			throws IOException {
 		jgen.writeStartArray();
-		jgen.writeNumber(p.getX());
-		jgen.writeNumber(p.getY());
+                
+		jgen.writeNumber(p.getCoordinate().x);
+		jgen.writeNumber(p.getCoordinate().y);
+                
+                if(!Double.isNaN(p.getCoordinate().z))
+                {
+                    jgen.writeNumber(p.getCoordinate().z);
+                }
 		jgen.writeEndArray();
 	}
 

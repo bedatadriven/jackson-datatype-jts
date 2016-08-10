@@ -18,10 +18,18 @@ public class PointParser extends BaseParser implements GeometryParser<Point> {
     }
 
     public static Coordinate coordinateFromJson(JsonNode array) {
-        assert array.isArray() && array.size() == 2 : "expecting coordinate array with single point [ x, y ]";
+        assert array.isArray() && (array.size() == 2 || array.size() == 3) : "expecting coordinate array with single point [ x, y, |z| ]";
+
+        if (array.size() == 2) {
+            return new Coordinate(
+                    array.get(0).asDouble(),
+                    array.get(1).asDouble());
+        }
+
         return new Coordinate(
                 array.get(0).asDouble(),
-                array.get(1).asDouble());
+                array.get(1).asDouble(),
+                array.get(2).asDouble());
     }
 
     public static Coordinate[] coordinatesFromJson(JsonNode array) {
