@@ -25,13 +25,16 @@ public class MultiLineStringParser extends BaseParser implements GeometryParser<
     private LineString[] lineStringsFromJson(JsonNode array) {
         LineString[] strings = new LineString[array.size()];
         for (int i = 0; i != array.size(); ++i) {
-            strings[i] = geometryFactory.createLineString(PointParser.coordinatesFromJson(array.get(i)));
+            LineString line = geometryFactory.createLineString(PointParser.coordinatesFromJson(array.get(i)));
+            strings[i] = line;
         }
         return strings;
     }
 
     @Override
     public MultiLineString geometryFromJson(JsonNode node) throws JsonMappingException {
-        return multiLineStringFromJson(node);
+        final MultiLineString multiLineString = multiLineStringFromJson(node);
+        setGeometryFieldsFromJson(node, multiLineString);
+        return multiLineString;
     }
 }

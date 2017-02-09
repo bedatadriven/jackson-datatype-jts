@@ -17,8 +17,10 @@ public class LineStringParser extends BaseParser implements GeometryParser<LineS
     }
 
     public LineString lineStringFromJson(JsonNode root) {
-        return geometryFactory.createLineString(
-                PointParser.coordinatesFromJson(root.get(COORDINATES)));
+        LineString line = geometryFactory.createLineString(
+              PointParser.coordinatesFromJson(root.get(COORDINATES)));
+        setGeometryFieldsFromJson(root, line);
+        return line;
     }
 
     @Override

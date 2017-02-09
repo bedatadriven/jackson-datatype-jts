@@ -24,4 +24,17 @@ public class GeometryCollectionParserTest extends BaseJtsModuleTest<GeometryColl
                 gf.createPoint(new Coordinate(1.2345678, 2.3456789)) });
     }
 
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+      return "{\"type\":\"GeometryCollection\",\"geometries\":[{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789]}],\"srid\":2154}";
+    }
+
+    @Override
+    protected GeometryCollection createGeometryWithSrid() {
+      GeometryCollection geom = gf.createGeometryCollection(new Geometry[] {
+      gf.createPoint(new Coordinate(1.2345678, 2.3456789)) });
+      geom.setSRID(2154);
+      return geom;
+    }
+
 }

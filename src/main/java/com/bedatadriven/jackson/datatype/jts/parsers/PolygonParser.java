@@ -17,7 +17,9 @@ public class PolygonParser extends BaseParser implements GeometryParser<Polygon>
 
     public Polygon polygonFromJson(JsonNode node) {
         JsonNode arrayOfRings = node.get(COORDINATES);
-        return polygonFromJsonArrayOfRings(arrayOfRings);
+        final Polygon polygon = polygonFromJsonArrayOfRings(arrayOfRings);
+        setGeometryFieldsFromJson(node, polygon);
+        return polygon;
     }
 
     public Polygon polygonFromJsonArrayOfRings(JsonNode arrayOfRings) {

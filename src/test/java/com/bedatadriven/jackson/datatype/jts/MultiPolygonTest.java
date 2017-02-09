@@ -27,4 +27,21 @@ public class MultiPolygonTest extends BaseJtsModuleTest<MultiPolygon> {
         return gf.createMultiPolygon(new Polygon[] { gf
                 .createPolygon(shell, null) });
     }
+
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+      return "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[102.0,2.0],[103.0,2.0],[103.0,3.0],[102.0,3.0],[102.0,2.0]]]],\"srid\":2154}";
+    }
+
+    @Override
+    protected MultiPolygon createGeometryWithSrid() {
+      LinearRing shell = gf.createLinearRing(new Coordinate[] {
+            new Coordinate(102.0, 2.0), new Coordinate(103.0, 2.0),
+            new Coordinate(103.0, 3.0), new Coordinate(102.0, 3.0),
+            new Coordinate(102.0, 2.0) });
+      MultiPolygon geom = gf.createMultiPolygon(new Polygon[] { gf
+            .createPolygon(shell, null) });
+      geom.setSRID(2154);
+      return geom;
+    }
 }

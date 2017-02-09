@@ -18,8 +18,10 @@ public class MultiPointParser extends BaseParser implements GeometryParser<Multi
     }
 
     public MultiPoint multiPointFromJson(JsonNode root) {
-        return geometryFactory.createMultiPoint(
-                PointParser.coordinatesFromJson(root.get(COORDINATES)));
+        MultiPoint multiPoint = geometryFactory.createMultiPoint(
+              PointParser.coordinatesFromJson(root.get(COORDINATES)));
+        setGeometryFieldsFromJson(root, multiPoint);
+        return multiPoint;
     }
 
     @Override

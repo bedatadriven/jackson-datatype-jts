@@ -17,4 +17,6 @@ public class GeoJson {
     public static final String GEOMETRIES = "geometries";
 
     public static final String COORDINATES = "coordinates";
+    
+    public static final String SRID = "srid";
 }

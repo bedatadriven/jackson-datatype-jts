@@ -24,4 +24,17 @@ public class MultiPointTest extends BaseJtsModuleTest<MultiPoint> {
         return gf.createMultiPoint(new Point[] {gf
                 .createPoint(new Coordinate(1.2345678, 2.3456789))});
     }
+
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+        return "{\"type\":\"MultiPoint\",\"coordinates\":[[1.2345678,2.3456789]],\"srid\":2154}";
+    }
+
+    @Override
+    protected MultiPoint createGeometryWithSrid() {
+      MultiPoint geom = gf.createMultiPoint(new Point[] {gf
+      .createPoint(new Coordinate(1.2345678, 2.3456789))});
+      geom.setSRID(2154);
+      return geom;
+    }
 }

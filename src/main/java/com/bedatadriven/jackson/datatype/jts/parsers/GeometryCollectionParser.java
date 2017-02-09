@@ -30,7 +30,9 @@ public class GeometryCollectionParser extends BaseParser implements GeometryPars
 
     @Override
     public GeometryCollection geometryFromJson(JsonNode node) throws JsonMappingException {
-        return geometryFactory.createGeometryCollection(
-                geometriesFromJson(node.get(GEOMETRIES)));
+        final GeometryCollection geometryCollection = geometryFactory.createGeometryCollection(
+              geometriesFromJson(node.get(GEOMETRIES)));
+        setGeometryFieldsFromJson(node, geometryCollection);
+        return geometryCollection;
     }
 }
