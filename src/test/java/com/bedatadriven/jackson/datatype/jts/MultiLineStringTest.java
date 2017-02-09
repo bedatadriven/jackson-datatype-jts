@@ -31,4 +31,23 @@ public class MultiLineStringTest extends BaseJtsModuleTest<MultiLineString> {
                                 new Coordinate(103.0, 3.0) }) });
     }
 
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+      return "{\"type\":\"MultiLineString\",\"coordinates\":[[[100.0,0.0],[101.0,1.0]],[[102.0,2.0],[103.0,3.0]]],\"srid\":2154}";
+    }
+
+    @Override
+    protected MultiLineString createGeometryWithSrid() {
+      MultiLineString geom = gf
+          .createMultiLineString(new LineString[] {
+                  gf.createLineString(new Coordinate[] {
+                          new Coordinate(100.0, 0.0),
+                          new Coordinate(101.0, 1.0) }),
+                  gf.createLineString(new Coordinate[] {
+                          new Coordinate(102.0, 2.0),
+                          new Coordinate(103.0, 3.0) }) });
+      geom.setSRID(2154);
+      return geom;
+    }
+
 }

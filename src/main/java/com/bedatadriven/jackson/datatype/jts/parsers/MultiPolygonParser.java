@@ -21,7 +21,9 @@ public class MultiPolygonParser extends BaseParser implements GeometryParser<Mul
 
     public MultiPolygon multiPolygonFromJson(JsonNode root) {
         JsonNode arrayOfPolygons = root.get(COORDINATES);
-        return geometryFactory.createMultiPolygon(polygonsFromJson(arrayOfPolygons));
+        MultiPolygon multiPolygon = geometryFactory.createMultiPolygon(polygonsFromJson(arrayOfPolygons));
+        setGeometryFieldsFromJson(root, multiPolygon);
+        return multiPolygon;
     }
 
     private Polygon[] polygonsFromJson(JsonNode arrayOfPolygons) {

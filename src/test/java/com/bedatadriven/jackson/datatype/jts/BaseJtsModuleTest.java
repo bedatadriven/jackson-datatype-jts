@@ -21,7 +21,9 @@ public abstract class BaseJtsModuleTest<T extends Geometry> {
     private ObjectWriter writer;
     private ObjectMapper mapper;
     private T geometry;
+    private T geometryWithSrid;
     private String geometryAsGeoJson;
+    private String geometryAsGeoJsonWithSrid;
 
     protected BaseJtsModuleTest() {
     }
@@ -32,7 +34,9 @@ public abstract class BaseJtsModuleTest<T extends Geometry> {
         mapper.registerModule(new JtsModule());
         writer = mapper.writer();
         geometry = createGeometry();
+        geometryWithSrid = createGeometryWithSrid();
         geometryAsGeoJson = createGeometryAsGeoJson();
+        geometryAsGeoJsonWithSrid = createGeometryAsGeoJsonWithSrid();
     }
 
     protected abstract Class<T> getType();
@@ -40,6 +44,10 @@ public abstract class BaseJtsModuleTest<T extends Geometry> {
     protected abstract String createGeometryAsGeoJson();
 
     protected abstract T createGeometry();
+    
+    protected abstract String createGeometryAsGeoJsonWithSrid();
+    
+    protected abstract T createGeometryWithSrid();
 
 
     @Test
@@ -56,6 +64,22 @@ public abstract class BaseJtsModuleTest<T extends Geometry> {
         assertThat(
                 toJson(geometry),
                 equalTo(geometryAsGeoJson));
+    }
+
+    @Test
+    public void shouldDeserializeConcreteTypeWithSrid() throws Exception {
+        T concreteGeometry = mapper.readValue(geometryAsGeoJsonWithSrid, getType());
+        assertThat(
+                toJson(concreteGeometry),
+                equalTo(geometryAsGeoJsonWithSrid));
+    }
+
+    @Test
+    public void shouldDeserializeAsInterfaceWithSrid() throws Exception {
+        assertRoundTrip(geometryWithSrid);
+        assertThat(
+                toJson(geometryWithSrid),
+                equalTo(geometryAsGeoJsonWithSrid));
     }
 
     protected String toJson(Object value) throws IOException {

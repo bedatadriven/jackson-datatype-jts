@@ -27,4 +27,16 @@ public class D3DPointTest extends BaseJtsModuleTest<Point> {
         return gf.createPoint(new Coordinate(1.2345678, 2.3456789,200.0));
     }
 
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+      return "{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789,200.0],\"srid\":2154}";
+    }
+
+    @Override
+    protected Point createGeometryWithSrid() {
+      Point point = gf.createPoint(new Coordinate(1.2345678, 2.3456789,200.0));
+      point.setSRID(2154);
+      return point;
+    }
+
 }

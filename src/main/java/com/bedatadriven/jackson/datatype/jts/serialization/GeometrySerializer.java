@@ -68,6 +68,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		}
 
 		jgen.writeEndArray();
+        writeGeometryFields(jgen, value);
 		jgen.writeEndObject();
 	}
 
@@ -82,6 +83,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		}
 
 		jgen.writeEndArray();
+        writeGeometryFields(jgen, value);
 		jgen.writeEndObject();
 	}
 
@@ -96,6 +98,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		}
 
 		jgen.writeEndArray();
+        writeGeometryFields(jgen, value);
 		jgen.writeEndObject();
 	}
 
@@ -115,6 +118,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		}
 
 		jgen.writeEndArray();
+        writeGeometryFields(jgen, value);
 		jgen.writeEndObject();
 	}
 
@@ -124,6 +128,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		jgen.writeStringField(TYPE, POLYGON);
 		jgen.writeFieldName(COORDINATES);
 		writePolygonCoordinates(jgen, value);
+        writeGeometryFields(jgen, value);
 
 		jgen.writeEndObject();
 	}
@@ -155,6 +160,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		jgen.writeStringField(TYPE, LINE_STRING);
 		jgen.writeFieldName(COORDINATES);
 		writeLineStringCoords(jgen, lineString);
+        writeGeometryFields(jgen, lineString);
 		jgen.writeEndObject();
 	}
 
@@ -164,8 +170,20 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 		jgen.writeStringField(TYPE, POINT);
 		jgen.writeFieldName(COORDINATES);
 		writePointCoords(jgen, p);
+        writeGeometryFields(jgen, p);
 		jgen.writeEndObject();
 	}
+
+    /**
+     * @param jgen
+     * @param p
+     * @throws IOException
+     */
+    private void writeGeometryFields(JsonGenerator jgen, Geometry p) throws IOException {
+        if (p.getSRID() != 0) {
+            jgen.writeNumberField(SRID, p.getSRID());
+        }
+    }
 
 	private void writePointCoords(JsonGenerator jgen, Point p)
 			throws IOException {

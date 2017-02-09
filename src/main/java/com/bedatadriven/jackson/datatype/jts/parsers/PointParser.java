@@ -7,6 +7,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 
 import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.SRID;
 
 /**
  * Created by mihaildoronin on 11/11/15.
@@ -41,8 +42,10 @@ public class PointParser extends BaseParser implements GeometryParser<Point> {
     }
 
     public Point pointFromJson(JsonNode node) {
-        return geometryFactory.createPoint(
-                coordinateFromJson(node.get(COORDINATES)));
+        Point point = geometryFactory.createPoint(
+              coordinateFromJson(node.get(COORDINATES)));
+        setGeometryFieldsFromJson(node, point);
+        return point;
     }
 
     @Override

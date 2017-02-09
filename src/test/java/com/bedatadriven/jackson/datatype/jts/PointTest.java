@@ -26,4 +26,16 @@ public class PointTest extends BaseJtsModuleTest<Point> {
         return gf.createPoint(new Coordinate(1.2345678, 2.3456789));
     }
 
+    @Override
+    protected Point createGeometryWithSrid() {
+        Point point = gf.createPoint(new Coordinate(1.2345678, 2.3456789));
+        point.setSRID(2154);
+        return point;
+    }
+
+    @Override
+    protected String createGeometryAsGeoJsonWithSrid() {
+      return "{\"type\":\"Point\",\"coordinates\":[1.2345678,2.3456789],\"srid\":2154}";
+    }
+
 }
