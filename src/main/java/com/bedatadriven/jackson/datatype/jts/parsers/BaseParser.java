@@ -1,6 +1,6 @@
 package com.bedatadriven.jackson.datatype.jts.parsers;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.GeometryFactory;
 
 /**
  * Created by mihaildoronin on 11/11/15.
