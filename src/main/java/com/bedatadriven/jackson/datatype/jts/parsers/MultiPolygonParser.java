@@ -2,9 +2,9 @@ package com.bedatadriven.jackson.datatype.jts.parsers;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Polygon;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Polygon;
 
 import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
 
@@ -14,6 +14,7 @@ import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
 public class MultiPolygonParser extends BaseParser implements GeometryParser<MultiPolygon> {
 
     private PolygonParser helperParser;
+
     public MultiPolygonParser(GeometryFactory geometryFactory) {
         super(geometryFactory);
         helperParser = new PolygonParser(geometryFactory);

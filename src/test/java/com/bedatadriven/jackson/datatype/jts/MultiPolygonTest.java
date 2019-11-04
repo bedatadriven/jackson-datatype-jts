@@ -2,7 +2,7 @@ package com.bedatadriven.jackson.datatype.jts;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.fasterxml.jackson.databind.node.BaseJsonNode;
-import com.vividsolutions.jts.geom.*;
+import org.locationtech.jts.geom.*;
 
 /**
  * Created by mihaildoronin on 11/11/15.

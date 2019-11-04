@@ -4,12 +4,28 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.vividsolutions.jts.geom.*;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.bedatadriven.jackson.datatype.jts.GeoJson.*;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.GEOMETRIES;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.GEOMETRY_COLLECTION;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.LINE_STRING;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.MULTI_LINE_STRING;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.MULTI_POINT;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.MULTI_POLYGON;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.POINT;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.POLYGON;
+import static com.bedatadriven.jackson.datatype.jts.GeoJson.TYPE;
 
 public class GeometrySerializer extends JsonSerializer<Geometry> {
 
