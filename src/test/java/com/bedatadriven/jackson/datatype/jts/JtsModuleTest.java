@@ -3,7 +3,7 @@ package com.bedatadriven.jackson.datatype.jts;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.vividsolutions.jts.geom.*;
+import org.locationtech.jts.geom.*;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;

@@ -2,9 +2,8 @@ package com.bedatadriven.jackson.datatype.jts.parsers;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.MultiPoint;
 
 import static com.bedatadriven.jackson.datatype.jts.GeoJson.COORDINATES;
 
@@ -18,8 +17,7 @@ public class MultiPointParser extends BaseParser implements GeometryParser<Multi
     }
 
     public MultiPoint multiPointFromJson(JsonNode root) {
-        return geometryFactory.createMultiPoint(
-                PointParser.coordinatesFromJson(root.get(COORDINATES)));
+        return geometryFactory.createMultiPointFromCoords(PointParser.coordinatesFromJson(root.get(COORDINATES)));
     }
 
     @Override

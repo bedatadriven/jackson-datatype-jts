@@ -1,20 +1,35 @@
 package com.bedatadriven.jackson.datatype.jts;
 
-import com.bedatadriven.jackson.datatype.jts.parsers.*;
+import com.bedatadriven.jackson.datatype.jts.parsers.GenericGeometryParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.GeometryCollectionParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.LineStringParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.MultiLineStringParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.MultiPointParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.MultiPolygonParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.PointParser;
+import com.bedatadriven.jackson.datatype.jts.parsers.PolygonParser;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometryDeserializer;
 import com.bedatadriven.jackson.datatype.jts.serialization.GeometrySerializer;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.vividsolutions.jts.geom.*;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 
 public class JtsModule3D extends SimpleModule {
 
     public JtsModule3D() {
         this(new GeometryFactory());
     }
-    
+
     public JtsModule3D(GeometryFactory geometryFactory) {
-        super("JtsModule3D", new Version(1, 0, 0, null,"com.bedatadriven","jackson-datatype-jts"));
+        super("JtsModule3D", new Version(1, 0, 0, null, "com.bedatadriven", "jackson-datatype-jts"));
 
         addSerializer(Geometry.class, new GeometrySerializer());
         GenericGeometryParser genericGeometryParser = new GenericGeometryParser(geometryFactory);
